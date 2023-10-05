@@ -268,7 +268,8 @@ template <typename T = uint8_t>
         read_tasks.emplace_back(std::move(fut_read_size));
         page_data[chunk] = datasource::buffer::create(std::move(buffer));
       } else {
-        fprintf(stderr, "host read!!!!!!!!!!!!! source->supports_device_read(): %s\n", source->supports_device_read() ? "true", "false");
+        auto supports_device_read = source->supports_device_read();
+        fprintf(stderr, "host read!!!!!!!!!!!!! source->supports_device_read(): %s\n", supports_device_read ? "true", "false");
         auto const read_buffer = source->host_read(io_offset, io_size);
         // Buffer needs to be padded.
         // Required by `gpuDecodePageData`.
