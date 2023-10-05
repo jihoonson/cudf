@@ -5608,7 +5608,7 @@ TEST_F(ParquetReaderTest, JihoonTest)
 {
   for (int i = 0; i < 1000; ++i) {
     char str[5];
-    sprintf(str, "%.4d", i);
+    sprintf(str, "%.4d", i + 1);
     auto file_path = "/data1/tpch/parquet-float64/sf=1000/lineitem/lineitem." + std::string(str) + ".parquet";
     fprintf(stderr, "reading %s\n", file_path.c_str());
 
