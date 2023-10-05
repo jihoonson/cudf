@@ -5615,7 +5615,7 @@ TEST_F(ParquetReaderTest, JihoonTest)
                      .convert_strings_to_categories(false);
 
   auto result = cudf::io::read_parquet(read_opts);
-  fprintf(stderr, "num rows: %ld\n", result.tbl->num_rows());
+  fprintf(stderr, "num rows: %d\n", result.tbl->num_rows());
 }
 
 // Test fixture for metadata tests
