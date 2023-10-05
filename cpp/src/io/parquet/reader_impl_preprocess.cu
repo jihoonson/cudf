@@ -254,9 +254,11 @@ template <typename T = uint8_t>
       io_size += chunks[next_chunk].compressed_size;
       next_chunk++;
     }
+    fprintf(stderr, "io_size: %ld\n", io_size);
     if (io_size != 0) {
       auto& source = sources[chunk_source_map[chunk]];
       if (source->is_device_read_preferred(io_size)) {
+        fprintf(stderr, "device read\n");
         // Buffer needs to be padded.
         // Required by `gpuDecodePageData`.
         auto buffer =
@@ -266,6 +268,7 @@ template <typename T = uint8_t>
         read_tasks.emplace_back(std::move(fut_read_size));
         page_data[chunk] = datasource::buffer::create(std::move(buffer));
       } else {
+        fprintf(stderr, "host read\n");
         auto const read_buffer = source->host_read(io_offset, io_size);
         // Buffer needs to be padded.
         // Required by `gpuDecodePageData`.
