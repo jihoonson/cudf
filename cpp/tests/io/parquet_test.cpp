@@ -5606,21 +5606,21 @@ TEST_F(ParquetReaderTest, ReorderedReadMultipleFiles)
 
 TEST_F(ParquetReaderTest, JihoonTest)
 {
-  std::vector<std::string> filepaths;
-  for (int i = 0; i < 10; ++i) {
+  for (int i = 0; i < 1000; ++i) {
     char str[5];
-    sprintf(str, ".4%d", i);
-    fprintf(stderr, "%s\n", str);
-    filepaths.emplace_back("/data1/tpch/parquet-float64/sf=10000/lineitem/lineitem." + std::string(str) + ".parquet");
-  }
-  // auto read_opts =
-  //   cudf::io::parquet_reader_options::builder(cudf::io::source_info{std::move(filepaths)})
-  //                    .columns({"l_quantity", "l_extendedprice", "l_discount", "l_tax", "l_returnflag", "l_linestatus", "l_shipdate"})
-  //                    .use_pandas_metadata(false)
-  //                    .convert_strings_to_categories(false);
+    sprintf(str, "%.4d", i);
+    auto file_path = "/data1/tpch/parquet-float64/sf=1000/lineitem/lineitem." + std::string(str) + ".parquet";
+    fprintf(stderr, "reading %s\n", file_path.c_str());
 
-  // auto result = cudf::io::read_parquet(read_opts);
-  // fprintf(stderr, "num rows: %d\n", result.tbl->num_rows());
+    auto read_opts =
+      cudf::io::parquet_reader_options::builder(cudf::io::source_info{{file_path}})
+                      .columns({"l_quantity", "l_extendedprice", "l_discount", "l_tax", "l_returnflag", "l_linestatus", "l_shipdate"})
+                      .use_pandas_metadata(false)
+                      .convert_strings_to_categories(false);
+
+    auto result = cudf::io::read_parquet(read_opts);
+    fprintf(stderr, "num rows: %d\n", result.tbl->num_rows());
+  }
 }
 
 // Test fixture for metadata tests
