@@ -5606,8 +5606,8 @@ TEST_F(ParquetReaderTest, ReorderedReadMultipleFiles)
 
 TEST_F(ParquetReaderTest, JihoonTest)
 {
-  auto const filepath1 = "/data1/tpch/parquet-float64/sf=10000/lineitem/lineitem.0001.parquet";
-  auto const filepath2 = "/data1/tpch/parquet-float64/sf=10000/lineitem/lineitem.1234.parquet";
+  std::string const filepath1 = "/data1/tpch/parquet-float64/sf=10000/lineitem/lineitem.0001.parquet";
+  std::string const filepath2 = "/data1/tpch/parquet-float64/sf=10000/lineitem/lineitem.1234.parquet";
   auto read_opts =
     cudf::io::parquet_reader_options::builder(cudf::io::source_info{{filepath1, filepath2}})
                      .columns({"l_quantity", "l_extendedprice", "l_discount", "l_tax", "l_returnflag", "l_linestatus", "l_shipdate"})
@@ -5615,7 +5615,7 @@ TEST_F(ParquetReaderTest, JihoonTest)
                      .convert_strings_to_categories(false);
 
   auto result = cudf::io::read_parquet(read_opts);
-  fprintf(stderr, "num rows: %ld\n" result.tbl->num_rows());
+  fprintf(stderr, "num rows: %ld\n", result.tbl->num_rows());
 }
 
 // Test fixture for metadata tests
