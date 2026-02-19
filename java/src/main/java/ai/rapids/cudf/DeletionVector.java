@@ -38,7 +38,7 @@ public class DeletionVector {
   /**
    * Information holder for a deletion vector associated with a Parquet file to read.
    */
-  public static class DeletionVectorInfo {
+  public static class DeletionVectorInfo implements AutoCloseable {
     /**
      * Serialized 64-bit roaring bitmap in portable format representing the deletion vector.
      */
@@ -78,6 +78,11 @@ public class DeletionVector {
         return Integer.MAX_VALUE;
       }
       return Arrays.stream(rowGroupNumRows).reduce(Math::addExact).orElse(0);
+    }
+
+    @Override
+    public void close() {
+      serializedBitmap.close();
     }
   }
 
